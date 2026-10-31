@@ -1,0 +1,6 @@
+{
+  "global": {
+    "cmd-alt-i": "mod.open:worktreeinclude",
+    "cmd-alt-shift-i": "worktreeinclude.copy"
+  }
+}

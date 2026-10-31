@@ -1,0 +1,1 @@
+{ "place": "none", "title": "Worktree include", "overlay": { "kind": "window", "width": 300, "height": 260, "key": "worktreeinclude", "keep": true } }
