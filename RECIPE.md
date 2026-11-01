@@ -172,7 +172,9 @@ on, and what each worktree got. Nothing is ever overwritten.
   run: a `.worktreeinclude` added while the window is open is noticed after
   the next start (or a mod reload).
 - Needs a POSIX `sh`, `xargs -0` and git 2.31 or newer
-  (`--path-format=absolute`). A Windows machine without `sh` shows `failed`.
+  (`--path-format=absolute`). On Windows the local machine runs
+  `C:/Program Files/Git/bin/sh.exe` (Git for Windows), since `sh` isn't on
+  `PATH`; without it a repo shows `failed`.
   Bare repos are skipped. `git worktree add --no-checkout` doesn't run the
   hook; the window catches those while it's open.
 - Copies can include secrets. They go only between checkouts on the same

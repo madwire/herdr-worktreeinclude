@@ -9,7 +9,7 @@
 
 import { View, div } from "gpui-kit";
 import { v_flex, h_flex } from "gpui-base";
-import { spaces, panes, exec, run, theme, notify, focused, nextCommand, home, props, closeOverlay, readTextFile } from "herdr";
+import { spaces, panes, exec, run, theme, notify, focused, nextCommand, home, props, closeOverlay, readTextFile, window } from "herdr";
 
 const FILE = ".worktreeinclude";
 const MARK = "herdr-worktreeinclude";
@@ -68,7 +68,9 @@ async function git(cwd, args, on) {
   const r = await exec("git", args, { cwd, on });
   return { ok: r.code === 0, out: (r.stdout ?? "").trim(), err: (r.stderr ?? "").trim() };
 }
-const sh = (script, args, on) => exec("sh", ["-c", script, "sh", ...args], { on });
+// Windows has no sh on PATH: on this machine use the one Git for Windows ships.
+const shell = (on) => (!on && window()?.platform === "windows" ? "C:/Program Files/Git/bin/sh.exe" : "sh");
+const sh = (script, args, on) => exec(shell(on), ["-c", script, "sh", ...args], { on });
 
 function loadSet(name) {
   try { return new Set(JSON.parse(localStorage.getItem(name) ?? "[]")); } catch { return new Set(); }
@@ -82,7 +84,7 @@ export default class WorktreeInclude extends View {
     this.open = new Set(); // trees whose file list is unfolded
     this.done = loadSet("done"); // worktrees handled once already
     this.off = loadSet("off"); // repos whose hook the person removed
-    try { this.userHome = home(); } catch { this.userHome = ""; }
+    try { this.userHome = home().replace(/\\/g, "/"); } catch { this.userHome = ""; }
     cx.timer.every(1000, (cx) => this.look(cx));
     this.look(cx);
     cx.spawn(async (cx) => {
