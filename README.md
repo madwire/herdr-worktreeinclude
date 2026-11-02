@@ -54,6 +54,9 @@ Or by hand:
 | `cmd-alt-i` | Open the Worktree include window |
 | `cmd-alt-shift-i` | Copy anything missing into the current worktree (while the window is open) |
 
+On Windows `cmd` is the Win key and `ctrl-alt` is AltGr, so bind something
+like `ctrl-shift-i` and `alt-shift-i` instead.
+
 In the window:
 
 - Each worktree space shows what it got: `+3` means three files were
@@ -94,7 +97,8 @@ says so and copies files itself instead, but only while it's open.
 
 ## Requirements
 
-- macOS or Linux (any machine with `sh`), and git 2.31 or newer.
+- macOS, Linux or Windows, and git 2.31 or newer. Needs `sh`; on Windows the
+  one from Git for Windows (`C:/Program Files/Git/bin/sh.exe`).
 - Bare repos are skipped. `git worktree add --no-checkout` doesn't run the
   hook, so those worktrees only get files while the window is open.
 
